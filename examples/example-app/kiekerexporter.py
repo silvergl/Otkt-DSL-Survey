@@ -78,7 +78,7 @@ class KiekerTcpExporter(SpanExporter):
 		self.writer_registry.register(record_class_name)
 		self.serializer.put_string(record_class_name)
 		self.serializer.put_long(time.get_time())
-		Something went wrong
+		self.serializer.put_long(int(span.end_time))
 		self.serializer.put_int(span.attributes["branch_id"])
 		self.serializer.put_int(span.attributes["branching_outcome"])
 		lock.release()

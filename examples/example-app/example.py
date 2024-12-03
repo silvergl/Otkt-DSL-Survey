@@ -11,9 +11,8 @@ otlp_exporter = KiekerTcpExporter()
 
 # Set up the span processor
 span_processor = SimpleSpanProcessor(otlp_exporter)
-span_processor_2 = IncrementAttributeSpanProcessor()
 trace.get_tracer_provider().add_span_processor(span_processor)
-trace.get_tracer_provider().add_span_processor(span_processor_2)
+
 
 # Create a tracer
 tracer = trace.get_tracer(__name__)
@@ -35,8 +34,8 @@ attributes = {
 }
 
 # Create some spans to be exported
-with tracer.start_as_current_span("example-span", attributes=attributes) as span:
-    with tracer.start_as_current_span("example-span-bu", attributes=attributes) as child_span:
+with tracer.start_as_current_span("Foo", attributes=attributes) as span:
+    with tracer.start_as_current_span("Foo", attributes=attributes) as child_span:
    # print(34662+3456778)
         print(span.get_span_context().span_id)
         print(span.parent)
@@ -47,7 +46,7 @@ with tracer.start_as_current_span("example-span", attributes=attributes) as span
         child_span.end()
         print("Example span created and exported")
     
-    with tracer.start_as_current_span("example-span-bu2", attributes=attributes) as child_span2:
+    with tracer.start_as_current_span("Foo", attributes=attributes) as child_span2:
    # print(34662+3456778)
         print(span.get_span_context().span_id)
         print(span.parent)
@@ -58,7 +57,7 @@ with tracer.start_as_current_span("example-span", attributes=attributes) as span
         child_span2.end()
         print("Example span created and exported")
     
-        with tracer.start_as_current_span("example-span-bu3", attributes=attributes) as child_span3:
+        with tracer.start_as_current_span("Foo", attributes=attributes) as child_span3:
    # print(34662+3456778)
             child_span3.end()
             print("Example span created and exported")
