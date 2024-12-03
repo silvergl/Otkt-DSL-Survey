@@ -87,3 +87,11 @@ You can also just rely on the default mappings. However, this mapping assumes th
 ```
 default mapping spanName ->  OperationExecutionRecord
 ```
+Finally, you specify a collector in the following way.
+```
+"collector:" "{"
+		port: 4137
+		hostname: localhost
+	"}"
+```
+
