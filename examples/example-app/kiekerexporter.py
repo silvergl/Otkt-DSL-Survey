@@ -28,14 +28,9 @@ class KiekerTcpExporter(SpanExporter):
 	
 	def export(self, spans):
 		for span in spans:
-			if span.name =="as":
-				self.send_ExampleRecord2_as(span)	
-				self.send_BranchingRecord_as(span)
-			if span.name =="bs":
-				self.send_ExampleRecord_bs(span)	
-				self.send_ExampleRecord2_bs(span)	
-				self.send_BranchingRecord_bs(span)
-				self.send_default_0(span)
+			if span.name =="Foo":
+				self.send_CustomRecord_Foo(span)	
+				self.send_BranchingRecord_Foo(span)
 		concatenated = b"".join(self.list_bytes)
 		self.list_byte= []
 		try:
@@ -56,59 +51,14 @@ class KiekerTcpExporter(SpanExporter):
 		except Exception as e:
 			print(repr(e))  # TODO: better exception handling
 
-	def send_ExampleRecord2_as(self, span: Span):
+	def send_CustomRecord_Foo(self, span: Span):
 		#fetch record name
 		lock.acquire()
-		record_class_name = "CustomRecords.ExampleRecord2"
+		record_class_name = "CustomRecords.CustomRecord"
 		self.writer_registry.register(record_class_name)
 		self.serializer.put_string(record_class_name)
 		self.serializer.put_long(time.get_time())
-		Something went wrong
-		Something went wrong
-		self.serializer.put_string(span.attributes["message"])
-		self.serializer.put_boolean(span.attributes["is_off"])
-		lock.release()
-		binarized_record = self.serializer.pack()
-		# try to send
-		try:
-			self.list_bytes.append(binarized_record)
-		except Exception as e:
-			# TODO: Better exception handling for tcp
-			print(repr(e))
-	
-	def send_ExampleRecord_bs(self, span: Span):
-		#fetch record name
-		lock.acquire()
-		record_class_name = "CustomRecords.ExampleRecord"
-		self.writer_registry.register(record_class_name)
-		self.serializer.put_string(record_class_name)
-		self.serializer.put_long(time.get_time())
-		self.serializer.put_long(int(span.start_time))
-		self.serializer.put_long(int(span.end_time))
-		self.serializer.put_long(self.get_trace_id(span.get_span_context().trace_id))
-		self.serializer.put_long(self.get_span_id(span.get_span_context().span_id))
-		parent_span_id = span.parent if span.parent else 0
-		self.serializer.put_long(parent_span_id)
 		self.serializer.put_int(span.attributes["int_num"])
-		self.serializer.put_long(span.attributes["long_num"])
-		lock.release()
-		binarized_record = self.serializer.pack()
-		# try to send
-		try:
-			self.list_bytes.append(binarized_record)
-		except Exception as e:
-			# TODO: Better exception handling for tcp
-			print(repr(e))
-	
-	def send_ExampleRecord2_bs(self, span: Span):
-		#fetch record name
-		lock.acquire()
-		record_class_name = "CustomRecords.ExampleRecord2"
-		self.writer_registry.register(record_class_name)
-		self.serializer.put_string(record_class_name)
-		self.serializer.put_long(time.get_time())
-		Something went wrong
-		Something went wrong
 		self.serializer.put_string(span.attributes["message"])
 		self.serializer.put_boolean(span.attributes["is_off"])
 		lock.release()
@@ -121,25 +71,7 @@ class KiekerTcpExporter(SpanExporter):
 			print(repr(e))
 	
 	
-	def send_BranchingRecord_as(self, span: Span):
-		#fetch record name
-		lock.acquire()
-		record_class_name = "kieker.common.record.controlflow.BranchingRecord"
-		self.writer_registry.register(record_class_name)
-		self.serializer.put_string(record_class_name)
-		self.serializer.put_long(time.get_time())
-		Something went wrong
-		self.serializer.put_int(span.attributes["branch_id"])
-		self.serializer.put_int(span.attributes["branching_outcome"])
-		lock.release()
-		binarized_record = self.serializer.pack()
-		# try to send
-		try:
-			self.list_bytes.append(binarized_record)
-		except Exception as e:
-			# TODO: Better exception handling for tcp
-			print(repr(e))
-	def send_BranchingRecord_bs(self, span: Span):
+	def send_BranchingRecord_Foo(self, span: Span):
 		#fetch record name
 		lock.acquire()
 		record_class_name = "kieker.common.record.controlflow.BranchingRecord"
@@ -158,30 +90,6 @@ class KiekerTcpExporter(SpanExporter):
 			# TODO: Better exception handling for tcp
 			print(repr(e))
 	
-	def send_default_0(self, span: Span):
-		#fetch record name
-		lock.acquire()
-		record_class_name = "kieker.common.record.controlflow.OperationExecutionRecord"
-		self.writer_registry.register(record_class_name)
-		self.serializer.put_string(record_class_name)
-		self.serializer.put_long(time.get_time())
-		self.serializer.put_string(span.attributes["operation_signature"])
-		self.serializer.put_string(span.attributes["session_id"])
-		self.serializer.put_long(self.get_trace_id(span.get_span_context().trace_id))
-		self.serializer.put_long(int(span.start_time))
-		self.serializer.put_long(int(span.end_time))
-		self.serializer.put_string(span.attributes["hostname"])
-		self.serializer.put_int(span.attributes["eoi"])
-		self.serializer.put_int(span.attributes["ess"])
-		lock.release()
-		binarized_record = self.serializer.pack()
-		# try to send
-		try:
-			self.list_bytes.append(binarized_record)
-		except Exception as e:
-			# TODO: Better exception handling for tcp
-			print(repr(e))
-								
 	
 	def get_trace_id(self, trace_id):
 	       if trace_id not in self.trace_dict:
