@@ -5,7 +5,7 @@ Let's go thrióugh basics of out Otkt that you will need to complete the Coding 
 Lets look at how Span Models are Declared:
 
 ```
-Span spanName: {
+Span as: {
   //here you describe how you want to refer to the standard span parameters inside of your DSL
   trace:  trace
 	parentTrace:   parentspan
@@ -26,7 +26,7 @@ Span spanName: {
 }
 ```
 You can specify multiple Spans.
-Additionaly you can annotate the default parameters with additional information.
+Additionaly you can annotate the custom parameters with additional information.
 
 ```
 type int num inc by 1 global
@@ -94,4 +94,65 @@ Finally, you specify a collector in the following way.
 		hostname: localhost
 	"}"
 ```
+To sum it up, your otkt.file will loke something like this in complete.
+```
+Span spanName: {
+  //here you describe how you want to refer to the standard span parameters inside of your DSL
+  trace:  trace
+	parentTrace:   parentspan
+	spanId:  spanId
+	startT:  startT
+  finishT: finishT
+	
+  //Here you specify the custom attributes that can be added to a span by OtelUser.
+  // Here it is important that the name corresponds to that used inside of you monitoring code
+	attributes:
+  type string message
+	type bool is_off
+	type int int_num
+	type long long_num
+	type int branch_id
+	type int branching_outcome
+	type int num inc by 1 global
+	type int num2 dec by 1 parrent
 
+}
+
+ew: ExampleRecord flow {
+	int int_num
+	long long_num	
+}
+
+new: ExampleRecord2 normal {
+	long trace
+	long spanId
+	string message
+	bool flag
+}
+
+
+new: ExampleRecord2 beforeafter {
+	string coolParameter
+}
+Reuse: BranchingRecord
+
+Mapping: as -> ExampleRecord2 {
+	as.trace to ExampleRecord2.trace
+	as.spanId to ExampleRecord2.spanId
+	as.is_off to ExampleRecord2.flag
+	as.message to ExampleRecord2.message
+	}
+
+Mapping: as ->BranchingRecord{
+	as.startT to BranchingRecord.timestamp
+	as.branch_id to BranchingRecord.branchID
+	as.branching_outcome to BranchingRecord.branchingOutcome
+	}
+default mapping as ->  OperationExecutionRecord
+
+collector:{
+		port: 4137
+		hostname: localhost
+	}
+
+```
