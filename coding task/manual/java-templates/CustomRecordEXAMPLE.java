@@ -18,15 +18,15 @@ public class CustomRecord extends AbstractMonitoringRecord{
 			TYPE_SIZE_BOOLEAN
 	;
 		
-	public static final Class<?>[] TYPES = {			int.class, 
-				String.class, 
-				boolean.class, 
+	public static final Class<?>[] TYPES = {int.class, 
+	String.class, 
+	boolean.class, 
 	};
 		
-	public static final String[] VALUE_NAMES = {			"numeric", 
-				"text", 
-				"flag", 
-				};
+	public static final String[] VALUE_NAMES = {"numeric", 
+	"text", 
+	"flag", 
+	};
 		
 	public CustomRecord( int numeric,  String text,  boolean flag  ){
 		
