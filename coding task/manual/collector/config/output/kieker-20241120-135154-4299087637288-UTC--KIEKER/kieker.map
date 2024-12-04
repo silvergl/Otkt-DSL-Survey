@@ -1,5 +1,0 @@
-$0=kieker.common.record.misc.KiekerMetadataRecord
-$1=CustomRecords.ExampleRecord
-$2=CustomRecords.ExampleRecord2
-$3=kieker.common.record.controlflow.BranchingRecord
-$4=kieker.common.record.controlflow.OperationExecutionRecord
