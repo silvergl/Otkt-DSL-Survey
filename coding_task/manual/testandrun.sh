@@ -1,7 +1,7 @@
 #!/bin/bash
 cd collector
 
-mvn package clean
+mvn  clean package
 
 if [ $? -ne 0 ]; then
     echo "Maven build failed. Exiting script."
@@ -12,8 +12,10 @@ cd target
 
 java -jar Collector-0.0.1-SNAPSHOT-jar-with-dependencies.jar -c ../../config.txt &
 listener_pid=$!
-sleep 5
-cd ../../../..
-source venv/bin/activate
-cd coding_task/java_templates/
-python3 example.py
+echo $listtener_pid
+sleep 10
+cd ../../
+
+x-terminal-emulator -e "bash -c './runpython.sh; exec bash'"
+
+kill $listener_pid

@@ -2,7 +2,7 @@ from opentelemetry import trace
 from opentelemetry.sdk.trace import TracerProvider
 from opentelemetry.sdk.trace.export import BatchSpanProcessor, SimpleSpanProcessor
 from kiekerexporter import KiekerTcpExporter
-from kiekerprocessor import IncrementAttributeSpanProcessor
+
 # Set up the tracer provider and OTLP gRPC exporter
 trace.set_tracer_provider(TracerProvider())
 
@@ -20,7 +20,9 @@ tracer = trace.get_tracer(__name__)
 attributes = {
     "long_num1":423567,
     "message":"helloWorld",
-    "int_num": 1
+    "int_num": 1,
+    "branch_id": 2,
+    "branching_outcome": 3
 }
 
 # Create some spans to be exported

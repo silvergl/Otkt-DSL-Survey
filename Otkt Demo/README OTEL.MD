@@ -12,7 +12,7 @@ To access default parameters:
 span.start_time 
 span.end_time
 span.get_span_context().trace_id
-span.get_span_context().sapn_id
+span.get_span_context().span_id
 span.parent.span_id
 ```
 
@@ -24,3 +24,5 @@ self.serializer.pot_boolean(value)
 self.serialzer,put_int(value)
 ```
 The order of these statements is important and should match the order in which the collector deserializes the record.
+
+

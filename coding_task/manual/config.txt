@@ -16,7 +16,7 @@ kieker.monitoring.writer=kieker.monitoring.writer.filesystem.FileWriter
 
 
 
-kieker.monitoring.writer.filesystem.FileWriter.customStoragePath=/home/serafim/Desktop/Otkt-DSL-Survey/examples
+kieker.monitoring.writer.filesystem.FileWriter.customStoragePath=/home/serafim/Desktop/Otkt-DSL-Survey
 
 
 

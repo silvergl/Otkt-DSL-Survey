@@ -13,7 +13,7 @@ time = TimeStamp()
 
 class KiekerTcpExporter(SpanExporter):
 		
-	def __init__(self, host="127.0.0.1", port=4137):
+	def __init__(self, host="127.0.0.1", port=1234):
 		self.host = host
 		self.port = port
 		self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -22,17 +22,17 @@ class KiekerTcpExporter(SpanExporter):
 		self.serializer = BinarySerializer([], self.writer_registry)
 		self.trace_dict = {}
 		self.current_id = 1
-		self.span_dic={}
+		self.span_dict={}
 		self.current_span_id = 1
 		self.list_bytes = []
 	
 	def export(self, spans):
 		for span in spans:
 			if span.name =="Foo":
-				self.send_CustomRecord_Foo(span)	
+				#self.send_CustomRecord_Foo(span)	
 				self.send_BranchingRecord_Foo(span)
 		concatenated = b"".join(self.list_bytes)
-		self.list_byte= []
+		self.list_bytes= []
 		try:
 			self.sock.sendall(concatenated)
 		except Exception as e:
@@ -58,9 +58,11 @@ class KiekerTcpExporter(SpanExporter):
 		self.writer_registry.register(record_class_name)
 		self.serializer.put_string(record_class_name)
 		self.serializer.put_long(time.get_time())
-		self.serializer.put_int(span.attributes["int_num"])
-		self.serializer.put_string(span.attributes["message"])
-		self.serializer.put_boolean(span.attributes["is_off"])
+		# TODO: Serialize span values in the right order!
+		
+		
+                
+                
 		lock.release()
 		binarized_record = self.serializer.pack()
 		# try to send

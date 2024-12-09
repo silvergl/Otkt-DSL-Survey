@@ -30,7 +30,7 @@ Additionaly you can annotate the custom parameters with additional information.
 
 ```
 type int num inc by 1 global
-type int num2 dec by 1 parrent
+type int num2 dec by 1 parent
 ```
 In this example, we indicate that "num" is incremented by one after each span is created. "num2" indicates that "num2" is decremented by one after each parent span is output. So if ParentSpan "num2" was 2, then the child will be 1.
 This will create the necessary processors.
@@ -96,7 +96,9 @@ Finally, you specify a collector in the following way.
 ```
 To sum it up, your otkt.file will loke something like this in complete.
 ```
-Span spanName: {
+model KiekerRecords
+
+Span: spanName {
   //here you describe how you want to refer to the standard span parameters inside of your DSL
   trace:  trace
 	parentTrace:   parentspan
@@ -118,7 +120,7 @@ Span spanName: {
 
 }
 
-ew: ExampleRecord flow {
+new: ExampleRecord flow {
 	int int_num
 	long long_num	
 }
