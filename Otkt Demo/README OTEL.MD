@@ -25,4 +25,9 @@ self.serialzer,put_int(value)
 ```
 The order of these statements is important and should match the order in which the collector deserializes the record.
 
+To conver trace_id and span_id into a shorter long, use 
+```
+self.get_span_id(span.get_span_context().span_id)
+self.get_span_id(span.get_span_context().trace_id)
+```
 
